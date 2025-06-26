@@ -1,0 +1,146 @@
+const quiz = [
+  {
+    pergunta: "Qual é o maior planeta do Sistema Solar?",
+    opcoes: ["Terra", "Marte", "Júpiter", "Saturno"],
+    resposta: "Júpiter"
+  },
+  {
+    pergunta: "Quem pintou a Mona Lisa?",
+    opcoes: ["Michelangelo", "Leonardo da Vinci", "Van Gogh", "Picasso"],
+    resposta: "Leonardo da Vinci"
+  },
+  {
+    pergunta: "Qual animal é conhecido como o rei da selva?",
+    opcoes: ["Leão", "Tigre", "Elefante", "Urso"],
+    resposta: "Leão"
+  }
+];
+
+let indiceAtual = 0;
+let pontuacao = 0;
+
+function carregarPergunta() {
+  const perguntaAtual = quiz[indiceAtual];
+  document.getElementById("pergunta").textContent = perguntaAtual.pergunta;
+  const opcoesContainer = document.getElementById("opcoes");
+  opcoesContainer.innerHTML = "";
+
+  perguntaAtual.opcoes.forEach(opcaoTexto => {
+    const btn = document.createElement("button");
+    btn.className = "opcao";
+    btn.textContent = opcaoTexto;
+    btn.onclick = () => verificarResposta(opcaoTexto);
+    opcoesContainer.appendChild(btn);
+  });
+
+  document.getElementById("resultado").textContent = "";
+}
+
+function verificarResposta(respostaSelecionada) {
+  const respostaCorreta = quiz[indiceAtual].resposta;
+  const resultado = document.getElementById("resultado");
+
+  if (respostaSelecionada === respostaCorreta) {
+    pontuacao++;
+    resultado.textContent = " Resposta correta!";
+    resultado.style.color = "green";
+  } else {
+    resultado.textContent = ` Errado! A resposta correta é: ${respostaCorreta}`;
+    resultado.style.color = "red";
+  }
+
+  setTimeout(() => {
+    indiceAtual++;
+    if (indiceAtual < quiz.length) {
+      carregarPergunta();
+    } else {
+      mostrarResultadoFinal();
+    }
+  }, 1500);
+}
+
+function mostrarResultadoFinal() {
+  document.getElementById("pergunta").textContent = "Fim do Quiz!";
+  document.getElementById("opcoes").innerHTML = "";
+  document.getElementById("resultado").textContent = `Você acertou ${pontuacao} de ${quiz.length} perguntas!`;
+}
+
+// Iniciar o quiz
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Interativo</title>
+  <link rel="stylesheet" href="handrik.css">
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Quiz de Curiosidades/h1>
+    <div class="pergunta" id="pergunta"></div>
+    <div class="opcoes" id="opcoes"></div>
+    <div class="resultado" id="resultado"></div>
+  </div>
+
+  <script src="handrik.js"></script>
+</body>
+</html>
+carregarPergunta();
+
+ody {
+font-family: arial, sans-serif;
+background: #f2f2f2;
+margin: 0; 
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+}
+
+.quiz-container {
+background-color:white;
+padding: 30px;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0,0,0,0,.1);
+width: 90%;
+max-width: 500px;
+text-align: center;
+}
+
+h1 {
+color: #333
+}
+
+.pergunta {
+    font-size: 1.2em;
+    margin: 20px 0;
+}
+
+.opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.opcao {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+.opcao:hover {
+    background: #0056b3;
+}
+
+.resultado {
+    margin-top: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
